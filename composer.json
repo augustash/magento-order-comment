@@ -1,5 +1,5 @@
 {
-    "name": "magemaven/order-comment",
+    "name": "augustash/magento-order-comment",
     "description": "Magento extension that allows customer to specify optional comment during order placing.",
     "type": "magento-module",
     "homepage": "https://github.com/r8/magento-order-comment",
@@ -11,6 +11,6 @@
         }
     ],
     "require": {
-        "magento-hackathon/magento-composer-installer": "2.*"
+        "magento-hackathon/magento-composer-installer": "*"
     }
 }
