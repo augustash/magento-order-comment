@@ -12,6 +12,32 @@
  */
 class Magemaven_OrderComment_Model_Resource_Order_Grid_Collection extends Mage_Sales_Model_Mysql4_Order_Grid_Collection
 {
+    /**
+     * Init collection select
+     *
+     * @return  Mage_Core_Model_Resource_Db_Collection_Abstract
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+
+        // default grid columns
+        $this->addFilterToMap('real_order_id', 'main_table.real_order_id');
+        $this->addFilterToMap('increment_id', 'main_table.increment_id');
+        $this->addFilterToMap('store_id', 'main_table.store_id');
+        $this->addFilterToMap('created_at', 'main_table.created_at');
+        $this->addFilterToMap('billing_name', 'main_table.billing_name');
+        $this->addFilterToMap('shipping_name', 'main_table.shipping_name');
+        $this->addFilterToMap('base_grand_total', 'main_table.base_grand_total');
+        $this->addFilterToMap('grand_total', 'main_table.grand_total');
+        $this->addFilterToMap('status', 'main_table.status');
+    }
+
+    /**
+     * Modify collection after load
+     *
+     * @return  Mage_Core_Model_Resource_Db_Collection_Abstract
+     */
     protected function _afterLoad()
     {
         parent::_afterLoad();
