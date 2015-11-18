@@ -15,9 +15,10 @@
 <config>
     <modules>
         <Magemaven_OrderComment>
-            <version>1.0.5.0</version>
+            <version>1.0.6.0</version>
         </Magemaven_OrderComment>
     </modules>
+
     <global>
         <models>
             <ordercomment>
@@ -50,6 +51,7 @@
             </checkout>
         </blocks>
     </global>
+
     <frontend>
         <events>
             <checkout_type_onepage_save_order>
@@ -78,6 +80,7 @@
             </sales_order_status_history_save_before>
         </events>
     </frontend>
+
     <adminhtml>
         <events>
             <core_block_abstract_prepare_layout_before>

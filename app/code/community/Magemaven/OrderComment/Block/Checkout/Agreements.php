@@ -15,7 +15,7 @@ class Magemaven_OrderComment_Block_Checkout_Agreements extends Mage_Checkout_Blo
     /**
      * Override block template
      *
-     * @return string
+     * @return  string
      */
     protected function _toHtml()
     {
