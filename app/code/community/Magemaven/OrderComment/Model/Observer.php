@@ -22,7 +22,8 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
     /**
      * Save comment from agreement form to order
      *
-     * @param $observer
+     * @param   $observer
+     * @return  void
      */
     public function saveOrderComment($observer)
     {
@@ -43,7 +44,8 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
     /**
      * Show customer comment in 'My Account'
      *
-     * @param $observer
+     * @param   $observer
+     * @return  void
      */
     public function setOrderCommentVisibility($observer)
     {
@@ -54,23 +56,23 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
                 $statusHistory->setIsVisibleOnFront(1);
             }
         }
-
     }
 
     /**
      * Adds column to admin sales order grid
      *
-     * @param Varien_Event_Observer $observer
+     * @param   Varien_Event_Observer $observer
+     * @return  void
      */
     public function appendColumnToSalesOrderGrid(Varien_Event_Observer $observer)
     {
         $block = $observer->getBlock();
         if (!isset($block)) {
-            return $this;
+            return;
         }
 
         if ($block->getType() == 'adminhtml/sales_order_grid') {
-            /* @var $block Mage_Adminhtml_Block_Sales_Order_Grid */
+            /* @var Mage_Adminhtml_Block_Sales_Order_Grid $block */
             $block->addColumnAfter('ordercomment', array(
                 'header'        => Mage::helper('ordercomment')->__('Last Comment'),
                 'type'          => 'text',
@@ -80,6 +82,12 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
         }
     }
 
+    /**
+     * Adds join to admin sales order grid collection
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  void
+     */
     public function beforeCollectionLoad(Varien_Event_Observer $observer)
     {
         $collection = $observer->getData('order_grid_collection');
@@ -90,9 +98,10 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
         /**
          * Mage_Sales_Model_Mysql4_Order_Grid_Collection (1.5.1.0) || Mage_Sales_Model_Resource_Order_Grid_Collection (1.9.1.0)
          */
-        if ($collection instanceof Mage_Sales_Model_Mysql4_Order_Grid_Collection || $collection instanceof Mage_Sales_Model_Resource_Order_Grid_Collection) {
+        if ($collection instanceof Mage_Sales_Model_Mysql4_Order_Grid_Collection
+            || $collection instanceof Mage_Sales_Model_Resource_Order_Grid_Collection) {
             $collection->getSelect()->join(
-                array('order'=> 'sales_flat_order'), 'order.entity_id = main_table.entity_id', array('order.customer_note')
+                array('order' => 'sales_flat_order'), 'order.entity_id = main_table.entity_id', array('order.customer_note')
             );
         }
     }
