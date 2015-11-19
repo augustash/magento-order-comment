@@ -100,9 +100,17 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
          */
         if ($collection instanceof Mage_Sales_Model_Mysql4_Order_Grid_Collection
             || $collection instanceof Mage_Sales_Model_Resource_Order_Grid_Collection) {
-            $collection->getSelect()->join(
-                array('order' => 'sales_flat_order'), 'order.entity_id = main_table.entity_id', array('order.customer_note')
-            );
+
+            /*
+             * The join below causes the customer's order tab to choke in the admin.
+             * The columns are empty when that particular query runs, so this is a
+             * quick method to get around this module's issues.
+             */
+            if (!empty($collection->getSelect()->getPart('columns'))) {
+                $collection->getSelect()->join(
+                    array('order' => 'sales_flat_order'), 'order.entity_id = main_table.entity_id', array('order.customer_note')
+                );
+            }
         }
     }
 }
