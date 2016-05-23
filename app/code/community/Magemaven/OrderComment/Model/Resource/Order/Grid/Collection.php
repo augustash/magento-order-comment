@@ -29,6 +29,7 @@ class Magemaven_OrderComment_Model_Resource_Order_Grid_Collection extends Mage_S
         $this->addFilterToMap('base_grand_total', 'main_table.base_grand_total');
         $this->addFilterToMap('grand_total', 'main_table.grand_total');
         $this->addFilterToMap('status', 'main_table.status');
+        $this->addFilterToMap('created_at', 'main_table.created_at');
 
         return $this;
     }
@@ -53,7 +54,7 @@ class Magemaven_OrderComment_Model_Resource_Order_Grid_Collection extends Mage_S
                 ->select()
                 ->from($this->getTable('sales/order_status_history'))
                 ->where("parent_id IN ($ids)")
-                ->order('main_table.created_at ASC');
+                ->order('created_at ASC');
 
             $items = $this->getConnection()->fetchAll($select);
 
