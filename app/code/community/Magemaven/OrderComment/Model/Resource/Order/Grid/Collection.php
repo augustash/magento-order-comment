@@ -53,7 +53,7 @@ class Magemaven_OrderComment_Model_Resource_Order_Grid_Collection extends Mage_S
                 ->select()
                 ->from($this->getTable('sales/order_status_history'))
                 ->where("parent_id IN ($ids)")
-                ->order('created_at ASC');
+                ->order('main_table.created_at ASC');
 
             $items = $this->getConnection()->fetchAll($select);
 
