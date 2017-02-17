@@ -90,6 +90,17 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
      */
     public function beforeCollectionLoad(Varien_Event_Observer $observer)
     {
+        $request    = Mage::app()->getRequest();
+        $controller = $request->getControllerName();
+        $action     = $request->getActionName();
+        $route      = $request->getRouteName();
+        $module     = $request->getModuleName();
+
+        // Mage::log('controller: ' . var_export($controller, true));
+        // Mage::log('action: ' . var_export($action, true));
+        // Mage::log('route: ' . var_export($route, true));
+        // Mage::log('module: ' . var_export($module, true));
+
         $collection = $observer->getData('order_grid_collection');
         if (!isset($collection)) {
             return;
@@ -101,10 +112,22 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
         if ($collection instanceof Mage_Sales_Model_Mysql4_Order_Grid_Collection
             || $collection instanceof Mage_Sales_Model_Resource_Order_Grid_Collection) {
 
-            /*
-             * The join below causes the customer's order tab to choke in the admin.
-             * The columns are empty when that particular query runs, so this is a
-             * quick method to get around this module's issues.
+            /**
+             * Fixes error:
+             *
+             * "You cannot define a correlation name 'order' more than once"
+             *
+             * when trying to export sales orders to CSV
+             */
+            if ($controller === 'sales_order' && in_array($action, array('exportCsv'))) {
+                return;
+            }
+
+            /**
+             * The join below causes the customer's order tab
+             * to choke in the admin. The columns are empty when
+             * that particular query runs, so this is a quick method
+             * to get around this module's issues.
              */
             if (!empty($collection->getSelect()->getPart('columns'))) {
                 $collection->getSelect()->join(
