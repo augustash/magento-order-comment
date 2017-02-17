@@ -119,7 +119,7 @@ class Magemaven_OrderComment_Model_Observer extends Varien_Object
              *
              * when trying to export sales orders to CSV
              */
-            if ($controller === 'sales_order' && in_array($action, array('exportCsv'))) {
+            if ($controller === 'sales_order' && in_array($action, array('exportCsv', 'exportExcel'))) {
                 return;
             }
 
